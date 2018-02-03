@@ -1,0 +1,41 @@
+#container{
+	width: calc(100vw);
+	height: calc(100vh);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#dirt-box {
+	min-height: 500px;
+	max-width: calc(100vw);
+	max-height: calc(100vh);
+	background-color: rgb(127, 204, 51);
+	flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	border: 10px solid darkgreen;
+}
+
+.row{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.mole{
+	width: 80px;
+	height: 80px;
+	border-radius: 100%;
+	background-color: grey;
+}
+
+.dirt{
+	width: 80px;
+	height: 80px;
+	border-radius: 100%;
+	background-color: rgb(205, 133, 63);
+	border: 10px solid rgb(139, 69, 19);
+}
