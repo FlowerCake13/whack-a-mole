@@ -1,4 +1,20 @@
-window.onload = function() {
+window.onload = function(){
+    var start = document.getElementById('start');
+    var modal = document.getElementById('modal');
+    var instructions = document.getElementById('instructions');
+    var instWords = document.getElementById('instWords');
+
+    modal.style.display = 'block';
+    instWords.style.display = 'none';
+
+    instructions.onclick = function(){
+        instWords.style.display = 'block';
+    }
+}
+
+start.onclick = function(){
+    modal.style.display = 'none';
+    
 	var dirt = document.querySelectorAll('.dirt');
 	var sound = document.getElementById('sound');
 	var grid = document.getElementById('dirt-box');
