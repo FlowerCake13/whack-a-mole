@@ -6,17 +6,69 @@ window.onload = function() {
 	var row0 = document.getElementById('row0-container');
 	var row1 = document.getElementById('row1-container');
 	var row2 = document.getElementById('row2-container');
+    var score = 0;
+    var scoreTxt = document.getElementById('score');
+    var currentPoke;
+    var pikaCombo = false;
+    var pikaBar = document.getElementById('pikaBar');
+    var pikaCounter = 0;
+    var g = 174;
 
 	for (let i = 0; i < dirt.length; i++) {
 		dirt[i].addEventListener('click', function() {
 			if (dirt[i].innerHTML) {
-				sound.play();
-					dirt[i].innerHTML = "";
+				sound.play()
+                //console.log(dirt[i].childNodes[0].id);
+                checkPokemon(dirt[i].childNodes[0].id)
+                scoreTxt.innerHTML = 'Score: ' + score;
+				dirt[i].innerHTML = "";
 	  		} else {
 	    	console.log("Nothing there.");
 	  		}
 		});
 	};
+    function checkPokemon(idHold){
+        switch(idHold){
+            case 'pikachu':
+                score += 3;
+                if (pikaCombo == true){
+                    pikaCombo = false;
+                    var pikaLev = document.createElement('div');
+                    pikaLev.style.width = '20%';
+                    pikaLev.style.backgroundColor = 'rgb(232, ' + g + ', 0)';
+                    g -= 25;
+                    pikaLev.style.height = '100px';
+                    pikaLev.setAttribute('class', 'pikaLevel')
+                    pikaBar.appendChild(pikaLev);
+                    pikaCounter++;
+                    if (pikaCounter == 5) {
+                        console.log('deon~')
+                        pikaCounter = 0;
+                        pikaBar.innerHTML = ''
+                        score += 100;
+                        g = 174;
+                    }
+
+                }else{
+                    pikaCombo = true;
+                }
+            break;
+            case 'rowlet':
+                score += 2;
+                pikaCombo = false;
+            case 'evee':
+                score += 1;
+                pikaCombo = false;
+            break;
+            case 'magikarp':
+                score += 5;
+                pikaCombo = false;
+            break;
+            default:
+                score += 1;
+                pikaCombo = false;
+        }
+    }
 
 	setInterval(setMole,1000);
 
@@ -37,7 +89,7 @@ window.onload = function() {
 			default:
 				console.log('Something in the checkNeighbor switch is not right!')	
 		}
-		console.log(setRow)
+		//console.log(setRow)
         if(pos == 0){
         	if(row[1].innerHTML != "") {
         		newDirt(setRow);
@@ -66,35 +118,46 @@ window.onload = function() {
     	case row2:
     		className = 'dirt row2'
     }
-    console.log(className)
+    //console.log(className)
     div.setAttribute('class', className);
     div.addEventListener('click', function(){
     	if(div.innerHTML != "") {
     		sound.play();
+            checkPokemon(div.childNodes[0].id)
+            scoreTxt.innerHTML = 'Score: ' + score;
     		div.innerHTML = '';
     	}else{
     		console.log('Nothing there');
     	}
     })
+    score--
+    scoreTxt.innerHTML = 'Score: ' + score;
     row.appendChild(div);
 }
 
   // Stretch Goal
   function setMole() {
-    var mole = document.createElement('div');
+    var mole = document.createElement('img');
     mole.setAttribute('class', 'mole');
+    var pokeImg = ['pikachu', 'rowlet', 'evee', 'magikarp']
+    var randPoke = Math.floor(Math.random()* pokeImg.length);
+    mole.src = 'assets/' + pokeImg[randPoke] + '.png';
+    mole.id = pokeImg[randPoke];
+    //Object pokemon src and name point vaule
+    //
+    currentPoke = pokeImg[randPoke];
+    //console.log(currentPoke)
     var randRow = Math.floor(Math.random()* numRow);
     var className = 'row' + randRow;
     var currentRow = document.getElementsByClassName(className);
     var randPos = Math.floor(Math.random()* currentRow.length);
 
     if (currentRow[randPos].innerHTML === "") {
-    //console.log(currentRow[randPos])
-
-      currentRow[randPos].appendChild(mole);
-      checkNeighbor(currentRow, randPos)
+        //console.log(currentRow[randPos])
+        currentRow[randPos].appendChild(mole);
+        checkNeighbor(currentRow, randPos)
     } else {
-    console.log(currentRow[randPos].innerHTML)
+    //console.log(currentRow[randPos].innerHTML)
       console.log("Too many moles.");
     }
   }
